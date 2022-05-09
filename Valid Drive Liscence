@@ -1,0 +1,55 @@
+input_prompt = "Please enter a valid Ontario licence plate: "
+error_msg = "Invalid licence plate."
+alphabe = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+def license_plate_acc(message, n):
+  '''
+  Reads the user's input message and giving a natural number n and returns 
+  corresponding number if the input is valid inside of 5 typing methods 
+  inclusively, and prints error message it it's not valid. 
+  
+  Effects: one value is read and one value or None is printed 
+  
+  license_plate_acc: Str Nat -> (anyof Nat None)
+  '''
+  message = input(input_prompt)
+  if n >= 5:
+    return None
+
+  if (message[0:4].upper() == message[0:4]) and \
+  (int (len((message[0:4]).upper()) == 4)) and len(message[5:]) == 3\
+  and(message[4:5] == "*") and ((message[5:8]).isnumeric()):
+    return (alphabe.find(message[0:1]) + 1) * (1000) ** (4 - 0) + \
+    (alphabe.find(message[1:2]) + 1) * (1000) ** (4 - 1) + \
+    (alphabe.find(message[2:3]) + 1) * (1000) ** (4 - 2) + \
+    (alphabe.find(message[3:4]) + 1) * (1000) ** (4 - 3) + int(message[5:])
+  else:
+    print(error_msg )
+    return license_plate_acc(message, n + 1)
+    
+def licence_plate():
+  '''
+  Reads the user's input and returns corresponding number if the input is valid
+  inside of 5 typing methods inclusively, and prints error message it it's not
+  valid by using the helper function above. 
+  
+  Effects: one value is read and one value or None is printed 
+  
+  licence_plate: None -> (anyof Nat None)
+  
+  Examples: 
+  If the user enters "no", "still no", "you can't make me!", "I don't want to!",\
+  and "never!!!"
+  when licence_plate() => None is called
+  "Invalid licence plate."
+  "Invalid licence plate." 
+  "Invalid licence plate." 
+  "Invalid licence plate." 
+  "Invalid licence plate." 
+  are printed
+
+  If the user enters "bushy" and the enters "ABCZ*567"
+  when licence_plate() => 1002003026567 is called 
+   "Invalid licence plate." is printed
+  '''
+  return license_plate_acc("", 0)
