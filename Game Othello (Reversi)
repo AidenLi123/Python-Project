@@ -1,0 +1,76 @@
+board = [[ '',  '',  '',  '',  '',  '',  '',  ''],
+         [ '',  '',  '',  '',  '',  '',  '',  ''],
+         [ '',  '', 'B', 'B', 'B',  '',  '',  ''],
+         [ '', 'W', 'B', 'W', 'W',  '', 'B',  ''],
+         [ '', 'W', 'B', 'W', 'W', 'W', 'W',  ''],
+         [ '',  '', 'W', 'W', 'W',  '',  '',  ''],
+         [ '',  '',  '', 'W',  '',  '',  '',  ''],
+         [ '',  '',  '',  '',  '',  '',  '',  '']]
+         
+board2 = [[ 'B', 'B', 'B', 'B', 'B', 'B', 'B', 'B'],
+          [ 'B', 'W', 'B', 'W', 'B', 'B', 'W', 'B'],
+          [ 'B', 'B', 'W', 'W', 'B', 'B', 'B', 'B'],
+          [ 'B', 'W', 'W', 'W', 'W', 'W', 'W', 'W'],
+          [ 'W', 'W', 'W', 'W', 'W', 'W', 'B', 'B'],
+          [ 'B', 'B', 'W', 'W', 'W', 'B', 'B', 'W'],
+          [ 'B', 'B', 'W', 'B', 'B', 'B', 'W', 'W'],
+          [ 'B', 'B', 'W', 'B', 'B', 'B', 'W', 'W']]
+          
+          
+def valid_direction(board, turn, row, col, row_diff, col_diff):
+  '''
+  Returns True if the piece of color turn can be played at the given location 
+  as a valid move on the board and False otherwise by consuming the natural
+  number row, col, row_diff and col_diff.
+  
+  valid_direction: Board Str Nat Nat Nat Nat -> Bool
+  Requires:
+  row, col, row_diff and col_diffare are natural numbers between 0 and 7 
+  inclusive and turn is either 'B' or 'W'
+  
+  
+  '''
+  if board[row][col] == '' and 0 <= row < 7 and 0 <= col < 7 and board[row +\
+  row_diff][col + col_diff] != turn and board[row + row_diff][col + col_diff] \
+  != '' and board[row][col] != turn:
+    curr_row = row
+    curr_col = col
+    curr_row = curr_row + row_diff
+    curr_col = curr_col + col_diff
+    while (0 <= curr_col <=  len(board[row])):
+      if board[curr_row][curr_col] == turn:
+        return True
+      elif board[curr_row][curr_col] == '':
+        return False 
+      curr_row = curr_row + row_diff
+      curr_col = curr_col + col_diff
+  return False
+      
+      
+def othello(board, turn, row, col):
+  '''
+  Returns True if the piece of color turn can be played at the given location 
+  as a valid move on the board and False otherwise by consuming the natural
+  number row and col
+  
+  othello: Board Str Nat Nat -> Bool
+  Requires:
+  row and are natural numbers between 0 and 7 inclusive
+  turn is either 'B' or 'W'
+  
+  Examples:
+  othello(board, 'W', 0, 0) => False
+  othello(board, 'B', 3, 0) => True
+  othello(board, 'W', 3, 0) => False
+  othello(board2, 'W', 1, 2) => False
+  
+  '''
+  valid = valid_direction(board, turn, row, col, 0, 1) or \
+  valid_direction(board, turn, row, col, 1, 0) or \
+  valid_direction(board, turn, row, col, 0, -1) or \
+  valid_direction(board, turn, row, col, -1, 0) or \
+  valid_direction(board, turn, row, col, 1, 1) or \
+  valid_direction(board, turn, row, col, -1, -1) or \
+  valid_direction(board, turn, row, col, 1, -1) or \
+  valid_direction(board, turn, row, col, -1, 1)
+  return valid
